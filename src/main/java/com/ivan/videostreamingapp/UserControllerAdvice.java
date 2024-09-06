@@ -32,4 +32,20 @@ public class UserControllerAdvice {
         return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(UserUnderageException.class)
+    public ResponseEntity<Map<String, String>> handleUnexpectedTypeException(UserUnderageException ex) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("error", "User underage error");
+        errorResponse.put("message", ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(InvalidDateException.class)
+    public ResponseEntity<Map<String, String>> handleUnexpectedTypeException(InvalidDateException ex) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("error", "Invalid date error");
+        errorResponse.put("message", ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
 }

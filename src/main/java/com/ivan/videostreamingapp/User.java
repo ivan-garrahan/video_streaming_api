@@ -2,6 +2,10 @@ package com.ivan.videostreamingapp;
 
 import jakarta.validation.constraints.*;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeParseException;
+
 public class User {
 
     private Long id;
@@ -21,6 +25,7 @@ public class User {
 
     @NotBlank(message = "Date of Birth is required")
     @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$", message = "Date format must match ISO 8601")
+    @AgeOver18
 //    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 //    @Past(message = "Date of Birth must be in the past")
     private String dob;
@@ -84,7 +89,20 @@ public class User {
 
     public void setDob(String dob) {
 
-
+//        if (dob == null || dob.isEmpty()) {
+//            throw new InvalidDateException("Date of Birth is required");
+//        }
+//
+//        try {
+//            LocalDate dobDate = LocalDate.parse(dob);
+//            LocalDate today = LocalDate.now();
+//            int age = Period.between(dobDate, today).getYears();
+//            if (age < 18) {
+//                throw new UserUnderageException("User must be at least 18 years old");
+//            }
+//        } catch (DateTimeParseException e) {
+//            throw new InvalidDateException("Invalid date format. Expected format is yyyy-MM-dd");
+//        }
 
         this.dob = dob;
     }

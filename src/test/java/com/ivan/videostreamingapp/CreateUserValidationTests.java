@@ -196,6 +196,17 @@ public class CreateUserValidationTests {
     }
 
     @Test
+    public void whenDobIsUnder18_thenReturns400() throws Exception {
+
+        User underageUser = new User("underageUser", "Password123", "underage@example.com", "2010-01-01", "8765432187654321");
+
+        mvc.perform(post("/api/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(underageUser)))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
     public void testEnterInvalidCcnLength() throws Exception {
         validUser.setCcn("1234");
 
