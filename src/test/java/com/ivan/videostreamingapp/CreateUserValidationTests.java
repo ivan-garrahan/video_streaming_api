@@ -10,6 +10,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -31,7 +34,9 @@ public class CreateUserValidationTests {
 
     @BeforeEach
     public void setup() {
-        validUser = new User("johnDoe", "Password123", "john@example.com", "1990-01-01", "1234567812345678");
+//        validUser = new User("johnDoe", "Password123", "john@example.com", "1990-01-01", "1234567812345678");
+        validUser = new User("johnDoe", "Password123", "john@example.com",
+                "1999-01-21", "1234567812345678");
     }
 
     @Test

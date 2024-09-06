@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class User {
 
-    @NotBlank
     private Long id;
 
     @NotBlank(message = "Username is required")
@@ -21,9 +20,9 @@ public class User {
     @Email(message = "Email should be valid")
     private String email;
 
-    @NotNull(message = "Date of Birth is required")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    @Past(message = "Date of Birth must be in the past")
+//    @NotNull(message = "Date of Birth is required")
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+//    @Past(message = "Date of Birth must be in the past")
     private String dob;
 
     @Pattern(regexp = "^\\d{16}$", message = "Credit Card Number must have 16 digits")

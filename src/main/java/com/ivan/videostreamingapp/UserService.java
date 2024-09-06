@@ -22,7 +22,7 @@ public class UserService {
     }
 
     public User createUser(User user) {
-        if user.getId() == null
+        System.out.println("createUser IS CALLED");
         user.setId(counter.getAndIncrement());
         users.add(user);
         return user;
