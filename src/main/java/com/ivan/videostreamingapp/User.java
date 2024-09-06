@@ -42,12 +42,12 @@ public class User {
         this.dob = dob;
     }
 
-    public User(String username, String password, String email, String dob, String creditCardNumber) {
+    public User(String username, String password, String email, String dob, String ccn) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.dob = dob;
-        this.ccn = creditCardNumber;
+        this.ccn = ccn;
     }
 
     // Getters and Setters
@@ -88,21 +88,6 @@ public class User {
     }
 
     public void setDob(String dob) {
-
-//        if (dob == null || dob.isEmpty()) {
-//            throw new InvalidDateException("Date of Birth is required");
-//        }
-//
-//        try {
-//            LocalDate dobDate = LocalDate.parse(dob);
-//            LocalDate today = LocalDate.now();
-//            int age = Period.between(dobDate, today).getYears();
-//            if (age < 18) {
-//                throw new UserUnderageException("User must be at least 18 years old");
-//            }
-//        } catch (DateTimeParseException e) {
-//            throw new InvalidDateException("Invalid date format. Expected format is yyyy-MM-dd");
-//        }
 
         this.dob = dob;
     }

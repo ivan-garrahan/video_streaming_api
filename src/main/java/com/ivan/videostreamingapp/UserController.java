@@ -18,9 +18,19 @@ public class UserController {
         this.userService = userService;
     }
 
+//    @GetMapping
+//    public List<User> getAllUsers() {
+//        return userService.getAllUsers();
+//    }
+
     @GetMapping
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    public ResponseEntity<List<User>> getUsers(@RequestParam(required = false) String creditCard) {
+        try {
+            List<User> users = userService.getUsersByCreditCardFilter(creditCard);
+            return ResponseEntity.ok(users);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
     @GetMapping("/{id}")

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -62,4 +63,15 @@ public class UserService {
 //                .anyMatch(user -> user.getUsername().equals(username));
     }
 
+    public List<User> getUsersByCreditCardFilter(String creditCardFilter) {
+        if (creditCardFilter == null || creditCardFilter.isEmpty()) {
+            return new ArrayList<>(users);
+        }
+
+        boolean hasCreditCard = creditCardFilter.equalsIgnoreCase("Yes");
+        return users.stream()
+                .filter(user -> (hasCreditCard && user.getCcn() != null && !user.getCcn().isEmpty()) ||
+                        (!hasCreditCard && (user.getCcn() == null || user.getCcn().isEmpty())))
+                .collect(Collectors.toList());
+    }
 }
