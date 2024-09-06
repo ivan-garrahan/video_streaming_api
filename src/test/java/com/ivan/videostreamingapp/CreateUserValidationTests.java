@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(UserController.class)
@@ -55,7 +56,7 @@ public class CreateUserValidationTests {
     }
 
     @Test
-    public void testEnterInvalidUsername() throws Exception {
+    public void testEnterNoUsername() throws Exception {
         validUser.setUsername(null);
 
         Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
@@ -64,8 +65,131 @@ public class CreateUserValidationTests {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(validUser)))
                 .andExpect(status().isBadRequest());
-
     }
+
+    @Test
+    public void testEnterInvalidUsername() throws Exception {
+        validUser.setUsername("username with spaces");
+
+        Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
+
+        mvc.perform(post("/api/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(validUser)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testEnterNoPassword() throws Exception {
+        validUser.setPassword(null);
+
+        Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
+
+        mvc.perform(post("/api/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(validUser)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testEnterInvalidPassword() throws Exception {
+        validUser.setPassword("invalid password");
+
+        Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
+
+        mvc.perform(post("/api/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(validUser)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testEnterInvalidPasswordNoUpper() throws Exception {
+        validUser.setPassword("passwordnoupper1");
+
+        Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
+
+        mvc.perform(post("/api/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(validUser)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testEnterInvalidPasswordNoNumber() throws Exception {
+        validUser.setPassword("passwordNoNumber");
+
+        Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
+
+        mvc.perform(post("/api/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(validUser)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testEnterNoEmail() throws Exception {
+        validUser.setEmail(null);
+
+        Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
+
+        mvc.perform(post("/api/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(validUser)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testEnterInvalidEmail() throws Exception {
+        validUser.setEmail("invalid email");
+
+        Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
+
+        mvc.perform(post("/api/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(validUser)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testEnterNoDob() throws Exception {
+        validUser.setDob(null);
+
+        Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
+
+        mvc.perform(post("/api/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(validUser)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testEnterInvalidDob() throws Exception {
+        validUser.setDob("21-01-1999");
+
+        Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
+
+        mvc.perform(post("/api/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(validUser)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testEnterInvalidCcn() throws Exception {
+        validUser.setDob("21-01-1999");
+
+        Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
+
+        mvc.perform(post("/api/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(validUser)))
+                .andExpect(status().isBadRequest());
+    }
+
+
+
+
 
 
 }

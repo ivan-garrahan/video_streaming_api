@@ -20,7 +20,8 @@ public class User {
     @Email(message = "Email should be valid")
     private String email;
 
-//    @NotNull(message = "Date of Birth is required")
+    @NotBlank(message = "Date of Birth is required")
+    @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$", message = "Date format must match ISO 8601")
 //    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 //    @Past(message = "Date of Birth must be in the past")
     private String dob;
