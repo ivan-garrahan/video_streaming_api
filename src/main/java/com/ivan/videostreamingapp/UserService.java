@@ -11,6 +11,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class UserService {
 
     private final List<User> users = new ArrayList<>();
+    private final List<String> usernames = new ArrayList<>();
     private final AtomicLong counter = new AtomicLong(1);
 
     public List<User> getAllUsers() {
@@ -21,10 +22,21 @@ public class UserService {
         return users.stream().filter(user -> user.getId().equals(id)).findFirst();
     }
 
+    public Optional<User> getUserByUsername(String username) {
+        return users.stream().filter(user -> user.getUsername().equals(username)).findFirst();
+    }
+
     public User createUser(User user) {
         System.out.println("createUser IS CALLED");
+
+//        if (usernames.contains(user.getUsername())) {
+//            throw new ClashingUserException(user.getUsername());
+//        }
+//        throw new ClashingUserException(user.getUsername());
+
         user.setId(counter.getAndIncrement());
         users.add(user);
+        usernames.add(user.getUsername());
         return user;
     }
 
@@ -39,4 +51,15 @@ public class UserService {
     public boolean deleteUser(Long id) {
         return users.removeIf(user -> user.getId().equals(id));
     }
+
+    public boolean userExists(String username) {
+        System.out.println("user Exists called");
+        Optional<User> userOptional = getUserByUsername(username);
+
+//        return userOptional.isPresent();
+        return usernames.contains(username);
+//        return users.stream()
+//                .anyMatch(user -> user.getUsername().equals(username));
+    }
+
 }

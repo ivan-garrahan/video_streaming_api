@@ -39,11 +39,11 @@ public class CreateUserValidationTests {
 
     }
 
-    @AfterEach
-    public void resetUser() {
-        validUser = new User("johnDoe", "Password123", "john@example.com",
-                "1999-01-21", "1234567812345678");
-    }
+//    @AfterEach
+//    public void resetUser() {
+//        validUser = new User("johnDoe", "Password123", "john@example.com",
+//                "1999-01-21", "1234567812345678");
+//    }
 
     @Test
     public void testEnterValidUser() throws Exception {
@@ -78,6 +78,26 @@ public class CreateUserValidationTests {
                         .content(objectMapper.writeValueAsString(validUser)))
                 .andExpect(status().isBadRequest());
     }
+
+//    @Test
+//    public void testEnterExistingUser() throws Exception {
+//
+//        User clashingUser = new User("johnDoe", "OtherPass1", "eviltwinjohn@example.com",
+//                "1999-01-21", "1234567812345678");
+//
+//        Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
+//
+//        mvc.perform(post("/api/users")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(objectMapper.writeValueAsString(validUser)));
+//
+//        Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(clashingUser);
+//
+//        mvc.perform(post("/api/users")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(objectMapper.writeValueAsString(clashingUser)))
+//                .andExpect(status().isConflict());
+//    }
 
     @Test
     public void testEnterNoPassword() throws Exception {
@@ -176,8 +196,8 @@ public class CreateUserValidationTests {
     }
 
     @Test
-    public void testEnterInvalidCcn() throws Exception {
-        validUser.setDob("21-01-1999");
+    public void testEnterInvalidCcnLength() throws Exception {
+        validUser.setCcn("1234");
 
         Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
 
@@ -186,6 +206,19 @@ public class CreateUserValidationTests {
                         .content(objectMapper.writeValueAsString(validUser)))
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    public void testEnterInvalidCcnValue() throws Exception {
+        validUser.setCcn("abc");
+
+        Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
+
+        mvc.perform(post("/api/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(validUser)))
+                .andExpect(status().isBadRequest());
+    }
+
 
 
 

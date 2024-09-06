@@ -22,4 +22,14 @@ public class UserControllerAdvice {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(ClashingUserException.class)
+    public ResponseEntity<Map<String, String>> handleUnexpectedTypeException(ClashingUserException ex) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("error", "Clashing user error");
+        errorResponse.put("message", ex.getMessage());
+//        errorResponse.put("message", "Invalid input for new user.");
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    }
+
 }

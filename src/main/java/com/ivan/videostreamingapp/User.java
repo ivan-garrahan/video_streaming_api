@@ -1,7 +1,6 @@
 package com.ivan.videostreamingapp;
 
 import jakarta.validation.constraints.*;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class User {
 
@@ -27,7 +26,7 @@ public class User {
     private String dob;
 
     @Pattern(regexp = "^\\d{16}$", message = "Credit Card Number must have 16 digits")
-    private String creditCardNumber;
+    private String ccn;
 
     public User() {}
 
@@ -43,7 +42,7 @@ public class User {
         this.password = password;
         this.email = email;
         this.dob = dob;
-        this.creditCardNumber = creditCardNumber;
+        this.ccn = creditCardNumber;
     }
 
     // Getters and Setters
@@ -84,14 +83,17 @@ public class User {
     }
 
     public void setDob(String dob) {
+
+
+
         this.dob = dob;
     }
 
-    public String getCreditCardNumber() {
-        return creditCardNumber;
+    public String getCcn() {
+        return ccn;
     }
 
-    public void setCreditCardNumber(String creditCardNumber) {
-        this.creditCardNumber = creditCardNumber;
+    public void setCcn(String ccn) {
+        this.ccn = ccn;
     }
 }
