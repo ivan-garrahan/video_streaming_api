@@ -2,10 +2,6 @@ package com.ivan.videostreamingapp;
 
 import jakarta.validation.constraints.*;
 
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.format.DateTimeParseException;
-
 public class User {
 
     private Long id;
@@ -26,8 +22,6 @@ public class User {
     @NotBlank(message = "Date of Birth is required")
     @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$", message = "Date format must match ISO 8601")
     @AgeOver18
-//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-//    @Past(message = "Date of Birth must be in the past")
     private String dob;
 
     @Pattern(regexp = "^\\d{16}$", message = "Credit Card Number must have 16 digits")

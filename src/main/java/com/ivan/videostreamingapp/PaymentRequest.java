@@ -16,8 +16,6 @@ public class PaymentRequest {
     private String amount;
 
     // Getters and setters
-
-
     public Long getId() {
         return id;
     }

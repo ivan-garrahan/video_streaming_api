@@ -18,15 +18,10 @@ public class UserController {
         this.userService = userService;
     }
 
-//    @GetMapping
-//    public List<User> getAllUsers() {
-//        return userService.getAllUsers();
-//    }
-
     @GetMapping
-    public ResponseEntity<List<User>> getUsers(@RequestParam(required = false) String creditCard) {
+    public ResponseEntity<List<User>> getUsers(@RequestParam(required = false) String CreditCard) {
         try {
-            List<User> users = userService.getUsersByCreditCardFilter(creditCard);
+            List<User> users = userService.getUsersByCreditCardFilter(CreditCard);
             return ResponseEntity.ok(users);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -42,11 +37,8 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
-        System.out.println("POST IS CALLED");
         boolean exists = userService.userExists(user.getUsername());
-        System.out.println("USer " + user.getUsername() + " exists " + exists);
         if (userService.userExists(user.getUsername())) {
-            System.out.println("USer exists");
             throw new ClashingUserException(user.getUsername());
 //            return ResponseEntity.status(HttpStatus.CONFLICT).body(createdUser);
         }

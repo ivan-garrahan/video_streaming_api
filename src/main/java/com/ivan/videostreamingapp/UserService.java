@@ -29,13 +29,6 @@ public class UserService {
     }
 
     public User createUser(User user) {
-        System.out.println("createUser IS CALLED");
-
-//        if (usernames.contains(user.getUsername())) {
-//            throw new ClashingUserException(user.getUsername());
-//        }
-//        throw new ClashingUserException(user.getUsername());
-
         user.setId(counter.getAndIncrement());
         users.add(user);
         usernames.add(user.getUsername());
@@ -46,7 +39,10 @@ public class UserService {
     public Optional<User> updateUser(Long id, User updatedUser) {
         return getUserById(id).map(existingUser -> {
             existingUser.setUsername(updatedUser.getUsername());
+            existingUser.setPassword(updatedUser.getPassword());
             existingUser.setEmail(updatedUser.getEmail());
+            existingUser.setDob(updatedUser.getDob());
+            existingUser.setCcn(updatedUser.getCcn());
             return existingUser;
         });
     }
@@ -56,13 +52,9 @@ public class UserService {
     }
 
     public boolean userExists(String username) {
-        System.out.println("user Exists called");
         Optional<User> userOptional = getUserByUsername(username);
 
-//        return userOptional.isPresent();
         return usernames.contains(username);
-//        return users.stream()
-//                .anyMatch(user -> user.getUsername().equals(username));
     }
 
     public List<User> getUsersByCreditCardFilter(String creditCardFilter) {

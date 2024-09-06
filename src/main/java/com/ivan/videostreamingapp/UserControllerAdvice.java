@@ -17,7 +17,6 @@ public class UserControllerAdvice {
         Map<String, String> errorResponse = new HashMap<>();
         errorResponse.put("error", "Validation error");
         errorResponse.put("message", ex.getMessage());
-//        errorResponse.put("message", "Invalid input for new user.");
 
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
@@ -27,7 +26,6 @@ public class UserControllerAdvice {
         Map<String, String> errorResponse = new HashMap<>();
         errorResponse.put("error", "Clashing user error");
         errorResponse.put("message", ex.getMessage());
-//        errorResponse.put("message", "Invalid input for new user.");
 
         return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
@@ -40,12 +38,12 @@ public class UserControllerAdvice {
         return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
     }
 
-    @ExceptionHandler(InvalidDateException.class)
-    public ResponseEntity<Map<String, String>> handleUnexpectedTypeException(InvalidDateException ex) {
-        Map<String, String> errorResponse = new HashMap<>();
-        errorResponse.put("error", "Invalid date error");
-        errorResponse.put("message", ex.getMessage());
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-    }
+//    @ExceptionHandler(InvalidDateException.class)
+//    public ResponseEntity<Map<String, String>> handleUnexpectedTypeException(InvalidDateException ex) {
+//        Map<String, String> errorResponse = new HashMap<>();
+//        errorResponse.put("error", "Invalid date error");
+//        errorResponse.put("message", ex.getMessage());
+//        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+//    }
 
 }

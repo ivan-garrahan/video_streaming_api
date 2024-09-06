@@ -10,14 +10,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 
-import java.util.Collections;
-
-import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(UserController.class)
@@ -40,17 +34,10 @@ public class CreateUserValidationTests {
 
     @BeforeEach
     public void setup() {
-//        validUser = new User("johnDoe", "Password123", "john@example.com", "1990-01-01", "1234567812345678");
         validUser = new User("johnDoe", "Password123", "john@example.com",
                 "1999-01-21", "1234567812345678");
 
     }
-
-//    @AfterEach
-//    public void resetUser() {
-//        validUser = new User("johnDoe", "Password123", "john@example.com",
-//                "1999-01-21", "1234567812345678");
-//    }
 
     @Test
     public void testEnterValidUser() throws Exception {
@@ -105,6 +92,8 @@ public class CreateUserValidationTests {
 //                        .content(objectMapper.writeValueAsString(clashingUser)))
 //                .andExpect(status().isConflict());
 //    }
+
+
 
     @Test
     public void testEnterNoPassword() throws Exception {
