@@ -43,7 +43,7 @@ public class CreateUserValidationTests {
     public void testEnterValidUser() throws Exception {
         Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
 
-        mockMvc.perform(post("/api/users")
+        mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(validUser)))
                 .andExpect(status().isCreated());
@@ -55,7 +55,7 @@ public class CreateUserValidationTests {
 
         Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
 
-        mockMvc.perform(post("/api/users")
+        mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(validUser)))
                 .andExpect(status().isBadRequest());
@@ -67,7 +67,7 @@ public class CreateUserValidationTests {
 
         Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
 
-        mockMvc.perform(post("/api/users")
+        mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(validUser)))
                 .andExpect(status().isBadRequest());
@@ -81,13 +81,13 @@ public class CreateUserValidationTests {
 //
 //        Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
 //
-//        mvc.perform(post("/api/users")
+//        mvc.perform(post("/users")
 //                .contentType(MediaType.APPLICATION_JSON)
 //                .content(objectMapper.writeValueAsString(validUser)));
 //
 //        Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(clashingUser);
 //
-//        mvc.perform(post("/api/users")
+//        mvc.perform(post("/users")
 //                        .contentType(MediaType.APPLICATION_JSON)
 //                        .content(objectMapper.writeValueAsString(clashingUser)))
 //                .andExpect(status().isConflict());
@@ -101,7 +101,7 @@ public class CreateUserValidationTests {
 
         Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
 
-        mockMvc.perform(post("/api/users")
+        mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(validUser)))
                 .andExpect(status().isBadRequest());
@@ -113,7 +113,7 @@ public class CreateUserValidationTests {
 
         Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
 
-        mockMvc.perform(post("/api/users")
+        mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(validUser)))
                 .andExpect(status().isBadRequest());
@@ -125,7 +125,7 @@ public class CreateUserValidationTests {
 
         Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
 
-        mockMvc.perform(post("/api/users")
+        mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(validUser)))
                 .andExpect(status().isBadRequest());
@@ -137,7 +137,7 @@ public class CreateUserValidationTests {
 
         Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
 
-        mockMvc.perform(post("/api/users")
+        mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(validUser)))
                 .andExpect(status().isBadRequest());
@@ -149,7 +149,7 @@ public class CreateUserValidationTests {
 
         Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
 
-        mockMvc.perform(post("/api/users")
+        mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(validUser)))
                 .andExpect(status().isBadRequest());
@@ -161,7 +161,7 @@ public class CreateUserValidationTests {
 
         Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
 
-        mockMvc.perform(post("/api/users")
+        mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(validUser)))
                 .andExpect(status().isBadRequest());
@@ -173,7 +173,7 @@ public class CreateUserValidationTests {
 
         Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
 
-        mockMvc.perform(post("/api/users")
+        mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(validUser)))
                 .andExpect(status().isBadRequest());
@@ -185,7 +185,7 @@ public class CreateUserValidationTests {
 
         Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
 
-        mockMvc.perform(post("/api/users")
+        mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(validUser)))
                 .andExpect(status().isBadRequest());
@@ -196,7 +196,7 @@ public class CreateUserValidationTests {
 
         User underageUser = new User("underageUser", "Password123", "underage@example.com", "2010-01-01", "8765432187654321");
 
-        mockMvc.perform(post("/api/users")
+        mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(underageUser)))
                 .andExpect(status().isForbidden());
@@ -208,7 +208,7 @@ public class CreateUserValidationTests {
 
         Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
 
-        mockMvc.perform(post("/api/users")
+        mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(validUser)))
                 .andExpect(status().isBadRequest());
@@ -220,7 +220,7 @@ public class CreateUserValidationTests {
 
         Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
 
-        mockMvc.perform(post("/api/users")
+        mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(validUser)))
                 .andExpect(status().isBadRequest());
@@ -239,7 +239,7 @@ public class CreateUserValidationTests {
 //        given(userService.getUsersByCreditCardFilter("Yes")).willReturn(Collections.singletonList(userWithCreditCard));
 //
 //
-//        MvcResult result = this.mockMvc.perform(get("/api/users"))
+//        MvcResult result = this.mockMvc.perform(get("/users"))
 //                .andDo(print())
 //                .andExpect(status().isOk())
 //                .andReturn();
@@ -248,12 +248,12 @@ public class CreateUserValidationTests {
 //        System.out.println(json);
 ////        Article article = objectMapper.readValue(json, Article.class);
 //
-////        mvc.perform(post("/api/users")
+////        mvc.perform(post("/users")
 ////                .contentType(MediaType.APPLICATION_JSON)
 ////                .content(objectMapper.writeValueAsString(userWithCreditCard)));
 //
 //
-////        mvc.perform(get("/api/users")
+////        mvc.perform(get("/users")
 //////                        .param("creditCard", "Yes")
 ////                        .contentType(MediaType.APPLICATION_JSON)
 ////                        .content(objectMapper.writeValueAsString(userWithCreditCard)))
@@ -262,7 +262,7 @@ public class CreateUserValidationTests {
 ////                .andExpect(jsonPath("$[0].username").value(userWithCreditCard.getUsername()))
 ////                .andExpect(jsonPath("$[1]").doesNotExist()); // No other users should be present
 //
-////        String response = mvc.perform(get("/api/users")
+////        String response = mvc.perform(get("/users")
 //////                        .param("creditCard", "Yes")
 ////                        .contentType(MediaType.APPLICATION_JSON))
 ////                .andDo(MockMvcResultHandlers.print()) // Print the result to the console
@@ -284,7 +284,7 @@ public class CreateUserValidationTests {
 //
 //        userService.createUser(userWithoutCreditCard);
 //
-//        mockMvc.perform(get("/api/users")
+//        mockMvc.perform(get("/users")
 //                        .param("creditCard", "No")
 //                        .contentType(MediaType.APPLICATION_JSON))
 //                .andExpect(status().isOk())
@@ -298,7 +298,7 @@ public class CreateUserValidationTests {
 //        User userWithCreditCard = new User("userWithCard", "Password123", "withCard@example.com", "1990-01-01", "1234567812345678");
 //        User userWithoutCreditCard = new User("userWithoutCard", "Password123", "withoutCard@example.com", "1990-01-01", null);
 //
-//        mockMvc.perform(get("/api/users")
+//        mockMvc.perform(get("/users")
 //                        .contentType(MediaType.APPLICATION_JSON))
 //                .andExpect(status().isOk())
 //                .andExpect(jsonPath("$[0].username").value(userWithCreditCard.getUsername()))

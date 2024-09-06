@@ -27,10 +27,9 @@ public class PaymentService {
     }
 
     // Method to create a new payment request
-    public PaymentRequest processPayment(PaymentRequest paymentRequest) {
+    public void processPayment(PaymentRequest paymentRequest) {
         paymentRequest.setId(counter.getAndIncrement());  // Assign a unique ID
         payments.add(paymentRequest);  // Add the payment request to the list
-        return paymentRequest;
     }
 
     // Method to update an existing payment request by its ID
