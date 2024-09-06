@@ -22,6 +22,7 @@ public class UserService {
     }
 
     public User createUser(User user) {
+        if user.getId() == null
         user.setId(counter.getAndIncrement());
         users.add(user);
         return user;
@@ -29,7 +30,7 @@ public class UserService {
 
     public Optional<User> updateUser(Long id, User updatedUser) {
         return getUserById(id).map(existingUser -> {
-            existingUser.setName(updatedUser.getName());
+            existingUser.setUsername(updatedUser.getUsername());
             existingUser.setEmail(updatedUser.getEmail());
             return existingUser;
         });
