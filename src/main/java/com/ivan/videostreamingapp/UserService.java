@@ -13,6 +13,7 @@ public class UserService {
 
     private final List<User> users = new ArrayList<>();
     private final List<String> usernames = new ArrayList<>();
+    private final List<String> ccns = new ArrayList<>();
     private final AtomicLong counter = new AtomicLong(1);
 
     public List<User> getAllUsers() {
@@ -38,6 +39,7 @@ public class UserService {
         user.setId(counter.getAndIncrement());
         users.add(user);
         usernames.add(user.getUsername());
+        ccns.add(user.getCcn());
         return user;
     }
 
@@ -73,5 +75,9 @@ public class UserService {
                 .filter(user -> (hasCreditCard && user.getCcn() != null && !user.getCcn().isEmpty()) ||
                         (!hasCreditCard && (user.getCcn() == null || user.getCcn().isEmpty())))
                 .collect(Collectors.toList());
+    }
+
+    public boolean isCcnRegistered(String creditCardNumber) {
+        return ccns.contains(creditCardNumber);
     }
 }

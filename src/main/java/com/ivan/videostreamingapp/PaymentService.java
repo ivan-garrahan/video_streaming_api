@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PaymentService {
+
     public boolean isCreditCardRegistered(String creditCardNumber) {
         return false;
     }
