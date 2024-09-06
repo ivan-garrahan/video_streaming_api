@@ -1,5 +1,8 @@
 # Video Streaming App API
 
+By Ivan Garrahan
+<p>ivan.garrahan@gmail.com</p>
+
 ## Overview
 
 This API provides endpoints to manage users and process payments for a video streaming application.
@@ -7,12 +10,41 @@ Users can register, update their profiles, and make payments.
 
 All source code is located in src/main/java, and all tests are found in src/tests
 
+## Framework
+- **Java Spring Framework:** This API was created using Java Spring. The framework was used to develop the RESTful endpoints and handle data validation.
+- **JUnit** - This framework is used for conducting Unit tests, which can be found in the src/test folder.
 ### How to run
 
 Included in the 'target' folder are the compiled java files, along with a **VideoStreamingApp-0.0.1-SNAPSHOT.jar.** file.
 
 To run this jar file, use the following command (from this project folder):
-- java -jar target/VideoStreamingApp-0.0.1-SNAPSHOT.jar
+- java -jar VideoStreamingApp-0.0.1-SNAPSHOT.jar
+
+Additionally, to communicate with the API, the url is **http:/localhost:8080/users** or **http:/localhost:8080/payments** . 
+
+Below are some cURL commands that can be used to interact with the API.
+
+## Example cURL Requests
+
+1. Create User:
+  ```sh
+  curl -X POST http://localhost:8080/users \
+  -H "Content-Type: application/json" \
+  -d '{"username":"user123","password":"Password123","email":"user@example.com","dob":"2000-01-01"}'
+  ```
+
+2. Get User by ID:
+  ```sh
+  curl -X GET http://localhost:8080/users/1
+  ```
+
+3. Process Payment:
+  ```sh
+  curl -X POST http://localhost:8080/payments \
+  -H "Content-Type: application/json" \
+  -d '{"creditCardNumber":"1234567812345678","amount":"100"}'
+  ```
+
 
 ## Endpoints
 
@@ -115,27 +147,6 @@ To run this jar file, use the following command (from this project folder):
 - 400 Bad Request:Returned when the request body fails validation.
 - 404 Not Found:Returned when a requested resource (e.g., user or credit card) does not exist.
 - 409 Conflict:Returned when attempting to create a user with a username that already exists.
-
-## Example cURL Requests
-
-1. Create User:
-  ```sh
-  curl -X POST http://localhost:8080/api/users \
-  -H "Content-Type: application/json" \
-  -d '{"username":"user123","password":"Password123","email":"user@example.com","dob":"2000-01-01"}'
-  ```
-
-2. Get User by ID:
-  ```sh
-  curl -X GET http://localhost:8080/api/users/1
-  ```
-
-3. Process Payment:
-  ```sh
-  curl -X POST http://localhost:8080/payments \
-  -H "Content-Type: application/json" \
-  -d '{"creditCardNumber":"1234567812345678","amount":"100"}'
-  ```
 
 ## Notes
 - Ensure you have the appropriate validation annotations in place to enforce the rules described.
