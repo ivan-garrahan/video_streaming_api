@@ -12,8 +12,6 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final List<User> users = new ArrayList<>();
-    private final List<String> usernames = new ArrayList<>();
-    private final List<String> ccns = new ArrayList<>();
     private final AtomicLong counter = new AtomicLong(1);
 
     public List<User> getAllUsers() {
@@ -31,19 +29,12 @@ public class UserService {
     public User createUser(User user) {
         user.setId(counter.getAndIncrement());
         users.add(user);
-        usernames.add(user.getUsername());
-        ccns.add(user.getCcn());
         return user;
     }
 
     public Optional<User> updateUser(Long id, User updatedUser) {
         return getUserById(id).map(existingUser -> {
-            existingUser.setUsername(updatedUser.getUsername());
-            existingUser.setPassword(updatedUser.getPassword());
-            existingUser.setEmail(updatedUser.getEmail());
-            existingUser.setDob(updatedUser.getDob());
-            existingUser.setCcn(updatedUser.getCcn());
-            return existingUser;
+            return new User(updatedUser);
         });
     }
 
@@ -51,10 +42,10 @@ public class UserService {
         return users.removeIf(user -> user.getId().equals(id));
     }
 
-    public boolean userExists(String username) {
-        Optional<User> userOptional = getUserByUsername(username);
+    public boolean userWithMatchingUsername(String username) {
 
-        return usernames.contains(username);
+        return users.stream()
+                .anyMatch(user -> user.getUsername().equals(username));
     }
 
     public List<User> getUsersByCreditCardFilter(String creditCardFilter) {
@@ -69,7 +60,8 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public boolean isCcnRegistered(String creditCardNumber) {
-        return ccns.contains(creditCardNumber);
+    public boolean isCcnRegistered(String ccn) {
+        return users.stream()
+                .anyMatch(user -> user.getCcn().equals(ccn));
     }
 }

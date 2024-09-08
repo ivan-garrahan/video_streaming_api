@@ -3,6 +3,7 @@ package com.ivan.videostreamingapp;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -10,7 +11,16 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -23,12 +33,11 @@ public class CreateUserValidationTests {
     MockMvc mockMvc;
 
     @MockBean
-    private UserService userService;
+    private UserService mockUserService;
 
     @Autowired
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     private ObjectMapper objectMapper;
-
 
     private User validUser;
 
@@ -37,11 +46,88 @@ public class CreateUserValidationTests {
         validUser = new User("johnDoe", "Password123", "john@example.com",
                 "1999-01-21", "1234567812345678");
 
+//        mockUserService.createUser(validUser);
+
+    }
+
+    @Test
+    public void testGetUsers() throws Exception {
+
+        User newUser = new User("johnDoe", "Password123", "john@example.com", "1999-01-21", "1234567812345678");
+
+        // Directly modify the list inside the mock, as mocks don't persist data
+//        List<User> users = new ArrayList<>();
+//        users.add(newUser);
+
+        // Mock the getAllUsers method to return the modified list
+//        Mockito.when(mockUserService.getAllUsers()).thenReturn(users);
+
+        // Mock the creation method to add the user to the list
+//        Mockito.doAnswer(invocation -> {
+//            User user = invocation.getArgument(0);
+//            users.add(user);
+//            return user;
+//        }).when(mockUserService).createUser(Mockito.any(User.class));
+
+//        List<User> users = new ArrayList<>(List.of(validUser));
+//        Mockito.when(mockUserService.getAllUsers()).thenReturn(users);
+
+//        String userJson = objectMapper.writeValueAsString(newUser);
+
+        when(mockUserService.createUser(newUser)).thenReturn(newUser);
+
+        mockMvc.perform(post("/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(newUser)))
+                .andExpect(status().isCreated()) // Assuming the response is 200 OK for a successful creation
+                .andExpect(jsonPath("$.username").value(newUser.getUsername()))
+                .andExpect(jsonPath("$.email").value(newUser.getEmail()))
+                .andExpect(jsonPath("$.dob").value(newUser.getDob()))
+                .andExpect(jsonPath("$.ccn").value(newUser.getCcn()));
+
+        mockMvc.perform(get("/users")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.model().attribute("username", "johnDoe"));
+//                .andExpect(jsonPath("$[0].username").value(validUser.getUsername()))
+//                .andExpect(jsonPath("$[0].email").value(validUser.getEmail()));
+
+    }
+
+//    @Test
+//    public void testGetUsers() throws Exception {
+//
+//        List<User> users = new ArrayList<>(List.of(validUser));
+//        Mockito.when(mockUserService.getAllUsers()).thenReturn(users);
+//
+//        mockMvc.perform(get("/users")
+//                        .contentType(MediaType.APPLICATION_JSON))
+//                .andDo(MockMvcResultHandlers.print())
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$[0].username").value(validUser.getUsername()))
+//                .andExpect(jsonPath("$[0].email").value(validUser.getEmail()));
+//
+//    }
+
+    @Test
+    public void testGetUserById() throws Exception {
+
+//        List<User> users = new ArrayList<>(List.of(validUser));
+        when(mockUserService.getUserById(validUser.getId())).thenReturn(Optional.ofNullable(validUser));
+
+        mockMvc.perform(get("/users")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].username").value(validUser.getUsername()))
+                .andExpect(jsonPath("$[0].email").value(validUser.getEmail()));
+
     }
 
     @Test
     public void testEnterValidUser() throws Exception {
-        Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
+        when(mockUserService.createUser(Mockito.any(User.class))).thenReturn(validUser);
 
         mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -53,7 +139,7 @@ public class CreateUserValidationTests {
     public void testEnterNoUsername() throws Exception {
         validUser.setUsername(null);
 
-        Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
+        when(mockUserService.createUser(Mockito.any(User.class))).thenReturn(validUser);
 
         mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -65,7 +151,7 @@ public class CreateUserValidationTests {
     public void testEnterInvalidUsername() throws Exception {
         validUser.setUsername("username with spaces");
 
-        Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
+        when(mockUserService.createUser(Mockito.any(User.class))).thenReturn(validUser);
 
         mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -99,7 +185,7 @@ public class CreateUserValidationTests {
     public void testEnterNoPassword() throws Exception {
         validUser.setPassword(null);
 
-        Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
+        when(mockUserService.createUser(Mockito.any(User.class))).thenReturn(validUser);
 
         mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -111,7 +197,7 @@ public class CreateUserValidationTests {
     public void testEnterInvalidPassword() throws Exception {
         validUser.setPassword("invalid password");
 
-        Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
+        when(mockUserService.createUser(Mockito.any(User.class))).thenReturn(validUser);
 
         mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -123,7 +209,7 @@ public class CreateUserValidationTests {
     public void testEnterInvalidPasswordNoUpper() throws Exception {
         validUser.setPassword("passwordnoupper1");
 
-        Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
+        when(mockUserService.createUser(Mockito.any(User.class))).thenReturn(validUser);
 
         mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -135,7 +221,7 @@ public class CreateUserValidationTests {
     public void testEnterInvalidPasswordNoNumber() throws Exception {
         validUser.setPassword("passwordNoNumber");
 
-        Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
+        when(mockUserService.createUser(Mockito.any(User.class))).thenReturn(validUser);
 
         mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -147,7 +233,7 @@ public class CreateUserValidationTests {
     public void testEnterNoEmail() throws Exception {
         validUser.setEmail(null);
 
-        Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
+        when(mockUserService.createUser(Mockito.any(User.class))).thenReturn(validUser);
 
         mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -159,7 +245,7 @@ public class CreateUserValidationTests {
     public void testEnterInvalidEmail() throws Exception {
         validUser.setEmail("invalid email");
 
-        Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
+        when(mockUserService.createUser(Mockito.any(User.class))).thenReturn(validUser);
 
         mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -171,7 +257,7 @@ public class CreateUserValidationTests {
     public void testEnterNoDob() throws Exception {
         validUser.setDob(null);
 
-        Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
+        when(mockUserService.createUser(Mockito.any(User.class))).thenReturn(validUser);
 
         mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -183,7 +269,7 @@ public class CreateUserValidationTests {
     public void testEnterInvalidDob() throws Exception {
         validUser.setDob("21-01-1999");
 
-        Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
+        when(mockUserService.createUser(Mockito.any(User.class))).thenReturn(validUser);
 
         mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -206,7 +292,7 @@ public class CreateUserValidationTests {
     public void testEnterInvalidCcnLength() throws Exception {
         validUser.setCcn("1234");
 
-        Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
+        when(mockUserService.createUser(Mockito.any(User.class))).thenReturn(validUser);
 
         mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -218,7 +304,7 @@ public class CreateUserValidationTests {
     public void testEnterInvalidCcnValue() throws Exception {
         validUser.setCcn("abc");
 
-        Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(validUser);
+        when(mockUserService.createUser(Mockito.any(User.class))).thenReturn(validUser);
 
         mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)

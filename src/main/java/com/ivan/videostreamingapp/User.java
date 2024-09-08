@@ -2,6 +2,8 @@ package com.ivan.videostreamingapp;
 
 import jakarta.validation.constraints.*;
 
+import java.util.Objects;
+
 public class User {
 
     private Long id;
@@ -42,6 +44,15 @@ public class User {
         this.email = email;
         this.dob = dob;
         this.ccn = ccn;
+    }
+
+    public User(User newUser) {
+        this.id = newUser.getId();
+        this.username = newUser.getUsername();
+        this.password = newUser.getPassword();
+        this.email = newUser.getEmail();
+        this.dob = newUser.getDob();
+        this.ccn = newUser.getCcn();
     }
 
     // Getters and Setters
@@ -93,4 +104,28 @@ public class User {
     public void setCcn(String ccn) {
         this.ccn = ccn;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) &&
+                Objects.equals(username, user.username) &&
+                Objects.equals(email, user.email) &&
+                Objects.equals(dob, user.dob) &&
+                Objects.equals(ccn, user.ccn);
+    }
+
+    // Overriding hashCode method
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, email, dob, ccn);
+    }
+
+//    @Override
+//    public String toString() {
+//        return "Employee{" + "id=" + this.id + ", firstName='" + this.firstName + '\'' + ", lastName='" + this.lastName
+//                + '\'' + ", role='" + this.role + '\'' + '}';
+//    }
 }

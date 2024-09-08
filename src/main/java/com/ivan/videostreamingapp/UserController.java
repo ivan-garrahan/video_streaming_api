@@ -37,14 +37,12 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
-        boolean exists = userService.userExists(user.getUsername());
-        if (userService.userExists(user.getUsername())) {
+
+        if (userService.userWithMatchingUsername(user.getUsername())) {
             throw new ClashingUserException(user.getUsername());
-//            return ResponseEntity.status(HttpStatus.CONFLICT).body(createdUser);
         }
         User createdUser = userService.createUser(user);
 
-//        System.out.println("USer " + createdUser.getUsername() + "doesn't exist");
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
 

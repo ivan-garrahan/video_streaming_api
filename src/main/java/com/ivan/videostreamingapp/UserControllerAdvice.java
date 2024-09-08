@@ -38,12 +38,4 @@ public class UserControllerAdvice {
         return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
     }
 
-//    @ExceptionHandler(InvalidDateException.class)
-//    public ResponseEntity<Map<String, String>> handleUnexpectedTypeException(InvalidDateException ex) {
-//        Map<String, String> errorResponse = new HashMap<>();
-//        errorResponse.put("error", "Invalid date error");
-//        errorResponse.put("message", ex.getMessage());
-//        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-//    }
-
 }
