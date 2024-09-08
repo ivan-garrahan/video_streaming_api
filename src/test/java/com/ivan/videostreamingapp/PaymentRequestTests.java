@@ -80,7 +80,7 @@ public class PaymentRequestTests {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(invalidRequest)))
                 .andExpect(status().isBadRequest())
-                .andDo(MockMvcResultHandlers.print());
+                .andDo(MockMvcResultHandlers.print());;
     }
 
     @Test
@@ -89,47 +89,12 @@ public class PaymentRequestTests {
         validRequest.setAmount("100"); // valid amount
         validRequest.setCreditCardNumber("1234567812345678"); // valid Credit Card Number
 
-        User newUser = new User("johnDoe", "Password123", "john@example.com", "1999-01-21", "1234567812345678");
-
-        // Directly modify the list inside the mock, as mocks don't persist data
-        List<User> users = new ArrayList<>();
-        users.add(newUser);
-
-        // Mock the getAllUsers method to return the modified list
-        Mockito.when(userService.getAllUsers()).thenReturn(users);
-
-        Mockito.doAnswer(invocation -> {
-            User user = invocation.getArgument(0);
-            users.add(user);
-            return user;
-        }).when(userService).createUser(Mockito.any(User.class));
-
-//        Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(testUser);
-
         mockMvc.perform(post("/payments")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(validRequest)))
                 .andExpect(status().isNotFound())
                 .andDo(MockMvcResultHandlers.print());
     }
-
-//    @Test
-//    public void testCreditCardNotRegistered() throws Exception {
-//        PaymentRequest validRequest = new PaymentRequest();
-//        validRequest.setAmount("100"); // valid amount
-//        validRequest.setCreditCardNumber("1234567812345678"); // valid Credit Card Number
-//
-//        User testUser = new User("johnDoe", "Password123", "john@example.com",
-//                "1999-01-21", "1234567812345678");
-//
-//        Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(testUser);
-//
-//        mockMvc.perform(post("/payments")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(objectMapper.writeValueAsString(validRequest)))
-//                .andExpect(status().isNotFound())
-//                .andDo(MockMvcResultHandlers.print());
-//    }
 
     @Test
     public void testValidPaymentRequest() throws Exception {
@@ -140,7 +105,8 @@ public class PaymentRequestTests {
         User testUser = new User("johnDoe", "Password123", "john@example.com",
                 "1999-01-21", "1234567812345678");
 
-        Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(testUser);
+        userService.createUser(testUser);
+        given(userService.isCcnRegistered(validRequest.getCreditCardNumber())).willReturn(true);
 
 //        given(paymentService.isCreditCardRegistered(validRequest.getCreditCardNumber())).willReturn(true);
 
@@ -148,7 +114,7 @@ public class PaymentRequestTests {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(validRequest)))
                 .andExpect(status().isCreated())
-                .andDo(MockMvcResultHandlers.print());
+                .andDo(MockMvcResultHandlers.print());;
     }
 
 }

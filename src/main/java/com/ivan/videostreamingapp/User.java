@@ -4,6 +4,8 @@ import jakarta.validation.constraints.*;
 
 import java.util.Objects;
 
+//@Entity
+//@TableName
 public class User {
 
     private Long id;
