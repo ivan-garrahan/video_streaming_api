@@ -1,13 +1,21 @@
 package com.ivan.videostreamingapp;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.*;
+//import org.springframework.util.StringUtils;
+
 
 import java.util.Objects;
 
 //@Entity
-//@TableName
+//@Table(name = "user_table")
 public class User {
 
+//    @Id
+//    @GeneratedValue
     private Long id;
 
     @NotBlank(message = "Username is required")
@@ -100,7 +108,7 @@ public class User {
     }
 
     public String getCcn() {
-        return ccn;
+        return ccn == null? "" : ccn;
     }
 
     public void setCcn(String ccn) {
